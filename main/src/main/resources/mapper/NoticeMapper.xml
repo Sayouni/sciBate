@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sci.da.front.Notice.mapper.NoticeMapper">
+
+    <select id="selectNotice" resultType="com.sci.da.front.Notice.entity.Notice">
+        select id,account,notice_id,notice_title,noticd_detail,read_status,publish_manager,create_time
+        from NOTICE
+        where account = #{account}
+        <if test="noticeTitle != null and noticeTitle != ''">
+            and notice_title like '%${noticeTitle}%'
+        </if>
+        order by read_status desc ,create_time desc
+    </select>
+
+
+</mapper>
