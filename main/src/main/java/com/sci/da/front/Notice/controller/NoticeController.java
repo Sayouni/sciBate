@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sci.da.front.Notice.Dto.NoticeDTO;
 import com.sci.da.front.Notice.entity.Notice;
 import com.sci.da.front.Notice.service.NoticeService;
+import com.sci.da.main.util.ResponseMessage;
 import com.sci.da.main.util.ResponseTable;
 import com.sci.da.main.util.TableResult;
 import io.swagger.annotations.Api;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +46,22 @@ public class NoticeController {
         } else {
             return TableResult.error("500", "账号为空");
         }
+    }
+
+    /**
+     * 需要参数id,account
+     * @param Id
+     * @return
+     */
+    @PutMapping("/changeReadStatus")
+    @ApiOperation(value = "修改阅读状态为已读")
+    public ResponseMessage changeReadStatus(String Id){
+            if (StringUtils.isNotBlank(Id)){
+                noticeService.changeReadStatus(Id);
+                return ResponseMessage.createBySuccessMessage("修改成功");
+            }
+            return ResponseMessage.createByErrorMessage("错误，通知ID为空");
+
     }
 
 

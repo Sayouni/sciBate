@@ -1,9 +1,12 @@
 package com.sci.da.front.Notice.service.Impl;
 
 
+import cn.hutool.core.bean.BeanUtil;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.sci.da.front.Notice.Dto.NoticeDTO;
 import com.sci.da.front.Notice.entity.Notice;
 import com.sci.da.front.Notice.mapper.NoticeMapper;
 import com.sci.da.front.Notice.service.NoticeService;
@@ -19,5 +22,10 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
         List<Notice> noticeList = baseMapper.selectNotice(page, noticeTitle, account);
         page.setRecords(noticeList);
         return page;
+    }
+
+    @Override
+    public void changeReadStatus(String Id) {
+        baseMapper.updateReadStatus(Id);
     }
 }
