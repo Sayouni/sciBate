@@ -12,7 +12,6 @@ import com.sci.da.main.util.TableResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
  * </p>
  *
  * @author tianyuankuan
- * @since 2021-02-01
+ * @since 2021-02-24
  */
 @RestController
 @RequestMapping("/notice")

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sci.da.front.Msg.mapper.ManuscriptMapper">
+
+    <!--个人稿件检索映射处理-->
+    <resultMap id="personalManuscriptMap" type="com.sci.da.front.Msg.Dto.PersonalManuscriptDTO">
+        <id column="id" property="id"/>
+        <result column="contributors" property="contributors"/>
+        <result column="manuscript_name" property="manuscriptName"/>
+        <result column="manuscript_kind" property="manuscriptKind"/>
+        <result column="manuscript_des" property="manuscriptDes"/>
+        <result column="manuscript_title" property="manuscriptTitle"/>
+        <result column="audit_status" property="auditStatus"/>
+        <result column="create_time" property="createTime"/>
+        <collection property="userInfoList" ofType="com.sci.da.front.User.Dto.UserInfoDTO">
+            <result column="account" property="account"/>
+            <result column="school" property="school"/>
+        </collection>
+    </resultMap>
+
+    <select id="selectPersonalManuscript" resultMap="personalManuscriptMap">
+        select MANUSCRIPT.id,MANUSCRIPT.contributors,MANUSCRIPT.manuscript_name,MANUSCRIPT.manuscript_kind,
+        MANUSCRIPT.manuscript_des,MANUSCRIPT.manuscript_title,MANUSCRIPT.audit_status,MANUSCRIPT.create_time,
+        USER_INFO.account,USER_INFO.school
+        from MANUSCRIPT
+        left join USER_INFO  on USER_INFO.account = MANUSCRIPT.contributors
+        where MANUSCRIPT.contributors = #{account}
+        <if test="manuscriptName != null and manuscriptName != ''">
+            and MANUSCRIPT.manuscript_name like '%${manuscriptName}%'
+        </if>
+        order by MANUSCRIPT.create_time desc
+    </select>
+</mapper>
