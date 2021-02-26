@@ -12,11 +12,9 @@ import com.sci.da.main.util.TableResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -62,6 +60,16 @@ public class NoticeController {
             }
             return ResponseMessage.createByErrorMessage("错误，通知ID为空");
 
+    }
+
+    @DeleteMapping("/deleteNotice")
+    @ApiOperation(value = "删除通知")
+    public ResponseMessage deleteNotice(String Id){
+        if (StringUtils.isNotBlank(Id)){
+            noticeService.deleteNotice(Id);
+            return ResponseMessage.createBySuccessMessage("删除成功");
+        }
+        return ResponseMessage.createByErrorMessage("错误，通知ID为空");
     }
 
 

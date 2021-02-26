@@ -12,4 +12,6 @@ public interface NoticeService extends IService<Notice> {
 
     void changeReadStatus(String Id);
 
+    void deleteNotice(String id);
+
 }

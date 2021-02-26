@@ -28,4 +28,9 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     public void changeReadStatus(String Id) {
         baseMapper.updateReadStatus(Id);
     }
+
+    @Override
+    public void deleteNotice(String id) {
+        baseMapper.deleteById(id);
+    }
 }
