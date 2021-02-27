@@ -67,16 +67,31 @@ public class ManuscriptController {
 
 
     /**
-     *
      * @param idList '稿件idList组'
      * @return
      */
     @DeleteMapping("/deleteManuscript")
     @ApiOperation("删除稿件单一/批量")
-    public ResponseMessage deleteManuscript(@RequestParam(value = "idList" ,required=false) List<String> idList){
-        if (idList.size()>0){
-            return ResponseMessage.createBySuccessCodeMessage("删除成功",manuscriptService.deleteManuscript(idList));
+    public ResponseMessage deleteManuscript(@RequestParam(value = "idList", required = false) List<String> idList) {
+        if (idList.size() > 0) {
+            return ResponseMessage.createBySuccessCodeMessage("删除成功", manuscriptService.deleteManuscript(idList));
         }
-        return ResponseMessage.createByErrorCodeMessage(500,"稿件Id为空");
+        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
     }
+
+    @PutMapping("/updateManuscript")
+    @ApiOperation("修改稿件信息")
+    public ResponseMessage updateManuscript(PersonalManuscriptDTO personalManuscriptDTO) {
+        if (StringUtils.isNotBlank(personalManuscriptDTO.getId())) {
+            if (manuscriptService.checkExistManuscript(personalManuscriptDTO.getId())){
+                if (manuscriptService.updateManuscript(personalManuscriptDTO)){
+                    return ResponseMessage.createBySuccessCodeMessage("信息修改成功", true);
+                }
+            }
+            return ResponseMessage.createByErrorCodeMessage(500, "无此稿件");
+        }
+        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+    }
+
+
 }

@@ -16,4 +16,8 @@ public interface ManuscriptService extends IService<Manuscript> {
 
     boolean deleteManuscript(List<String> idList);
 
+    boolean updateManuscript(PersonalManuscriptDTO personalManuscriptDTO);
+
+    boolean checkExistManuscript(String id);
+
 }
