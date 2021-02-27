@@ -48,5 +48,21 @@ public class ManuscriptController {
         return TableResult.error("500", "账号为空");
     }
 
+    /**
+     * page,limit,(manuscriptName)
+     * @param personalManuscriptDTO
+     * @return
+     */
+    @GetMapping("/selectAllManuscript")
+    @ApiOperation(value = "分页检索所有人的稿件")
+    public ResponseTable selectAllManuscript(PersonalManuscriptDTO personalManuscriptDTO) {
+            IPage<PersonalManuscriptDTO> result = manuscriptService.selectAllManuscript(new Page<>(
+                            personalManuscriptDTO.getPage(), personalManuscriptDTO.getLimit()),
+                    personalManuscriptDTO.getManuscriptName());
+            return TableResult.success("200", "查询成功", (int) result.getTotal(), result.getRecords());
+        }
+
+
+
 
 }

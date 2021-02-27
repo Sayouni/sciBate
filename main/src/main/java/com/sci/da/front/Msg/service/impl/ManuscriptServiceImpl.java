@@ -21,4 +21,11 @@ public class ManuscriptServiceImpl extends ServiceImpl<ManuscriptMapper, Manuscr
         page.setRecords(resultList);
         return page;
     }
+
+    @Override
+    public IPage<PersonalManuscriptDTO> selectAllManuscript(Page page, String manuscriptName) {
+        List<PersonalManuscriptDTO> resultList = baseMapper.selectAllManuscript(page,manuscriptName);
+        page.setRecords(resultList);
+        return page;
+    }
 }

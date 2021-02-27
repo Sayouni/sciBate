@@ -12,4 +12,6 @@ public interface ManuscriptMapper extends BaseMapper<Manuscript> {
 
     List<PersonalManuscriptDTO> selectPersonalManuscript(Page page, @Param("manuscriptName") String manuscriptName, @Param("account") String account);
 
+    List<PersonalManuscriptDTO> selectAllManuscript(Page page, @Param("manuscriptName") String manuscriptName);
+
 }

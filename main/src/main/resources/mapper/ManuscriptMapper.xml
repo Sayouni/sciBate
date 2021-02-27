@@ -30,4 +30,17 @@
         </if>
         order by MANUSCRIPT.create_time desc
     </select>
+
+    <select id="selectAllManuscript" resultMap="personalManuscriptMap">
+        select MANUSCRIPT.id,MANUSCRIPT.contributors,MANUSCRIPT.manuscript_name,MANUSCRIPT.manuscript_kind,
+        MANUSCRIPT.manuscript_des,MANUSCRIPT.manuscript_title,MANUSCRIPT.audit_status,MANUSCRIPT.create_time,
+        USER_INFO.account,USER_INFO.school
+        from MANUSCRIPT
+        left join USER_INFO  on USER_INFO.account = MANUSCRIPT.contributors
+        where MANUSCRIPT.audit_status = 1
+        <if test="manuscriptName != null and manuscriptName != ''">
+            and MANUSCRIPT.manuscript_name like '%${manuscriptName}%'
+        </if>
+        order by MANUSCRIPT.create_time desc
+    </select>
 </mapper>

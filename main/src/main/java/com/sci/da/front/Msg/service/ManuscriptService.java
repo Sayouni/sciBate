@@ -10,4 +10,5 @@ public interface ManuscriptService extends IService<Manuscript> {
 
     IPage<PersonalManuscriptDTO> selectPersonalManuscript(Page page,String manuscriptName ,String account);
 
+    IPage<PersonalManuscriptDTO> selectAllManuscript(Page page, String manuscriptName);
 }
