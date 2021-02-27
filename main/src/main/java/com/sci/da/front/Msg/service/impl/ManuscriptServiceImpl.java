@@ -9,6 +9,7 @@ import com.sci.da.front.Msg.mapper.ManuscriptMapper;
 import com.sci.da.front.Msg.service.ManuscriptService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,5 +28,13 @@ public class ManuscriptServiceImpl extends ServiceImpl<ManuscriptMapper, Manuscr
         List<PersonalManuscriptDTO> resultList = baseMapper.selectAllManuscript(page,manuscriptName);
         page.setRecords(resultList);
         return page;
+    }
+
+    @Override
+    public boolean deleteManuscript(List<String> idList) {
+        if (baseMapper.deleteBatchIds(idList)>0){
+            return true;
+        }
+        return false;
     }
 }
