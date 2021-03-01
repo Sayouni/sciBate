@@ -16,8 +16,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
 
 @Service
@@ -97,5 +101,51 @@ public class ManuscriptServiceImpl extends ServiceImpl<ManuscriptMapper, Manuscr
         BeanUtil.copyProperties(manuscriptDTO,manuscript);
         save(manuscript);
         return true;
+    }
+
+    @Override
+    public boolean checkMyselfManuscript(String id, String contributors) {
+        String idColumn = "id";
+        List<Manuscript> resList = baseMapper.selectList(new QueryWrapper<Manuscript>().in(idColumn,id));
+        for (Manuscript manuscript : resList){
+            if (manuscript.getAuditStatus()==1){
+                return true;
+            }else {
+                if (manuscript.getContributors().contains(contributors)){
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean downloadManuscript(HttpServletResponse response, HttpServletRequest request, String id) {
+        String idColumn = "id";
+        Manuscript manuscript = baseMapper.selectOne(new QueryWrapper<Manuscript>().in(idColumn,id));
+        try {
+            //文件地址
+            File file = new File(manuscript.getManuscriptTitle());
+            // 穿件输入对象
+            FileInputStream fis = new FileInputStream(file);
+            // 设置相关格式
+            response.setContentType("application/force-download");
+            // 设置下载后的文件名以及header
+            String fileName = new String(manuscript.getIdentifyingName().getBytes("utf-8"),"iso-8859-1");
+            response.addHeader("Content-disposition", "attachment;fileName=" + fileName);
+            // 创建输出对象
+            OutputStream os = response.getOutputStream();
+            // 常规操作
+            byte[] buf = new byte[1024];
+            int len = 0;
+            while((len = fis.read(buf)) != -1) {
+                os.write(buf, 0, len);
+            }
+            fis.close();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

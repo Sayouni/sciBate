@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -83,6 +85,7 @@ public class ManuscriptController {
 
     /**
      * manuscriptDes,manuscriptKind,manuscriptName
+     *
      * @param personalManuscriptDTO
      * @return
      */
@@ -103,6 +106,7 @@ public class ManuscriptController {
 
     /**
      * contributors,manuscriptDes,manuscriptKind,manuscriptName,multipartFile
+     *
      * @param manuscriptDTO
      * @param multipartFile
      * @return
@@ -126,6 +130,18 @@ public class ManuscriptController {
             }
         }
         return ResponseMessage.createByErrorCodeMessage(500, "错误,未上传文件或上传了空文件");
+
+    }
+
+    @GetMapping("/downloadManuscript")
+    @ApiOperation("稿件下载")
+    public ResponseMessage downloadManuscript(HttpServletResponse response, HttpServletRequest request, String id
+            , String contributors) {
+        if (manuscriptService.checkMyselfManuscript(id, contributors)) {
+            return ResponseMessage.createBySuccessCodeMessage("下载成功",
+                    manuscriptService.downloadManuscript(response, request, id));
+        }
+        return ResponseMessage.createByErrorCodeMessage(500,"该稿件公布，无法下载");
 
     }
 

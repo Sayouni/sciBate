@@ -8,6 +8,8 @@ import com.sci.da.front.Msg.Dto.PersonalManuscriptDTO;
 import com.sci.da.front.Msg.entity.Manuscript;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public interface ManuscriptService extends IService<Manuscript> {
@@ -23,5 +25,9 @@ public interface ManuscriptService extends IService<Manuscript> {
     boolean checkExistManuscript(String id);
 
     boolean uploadManuscript(ManuscriptDTO manuscriptDTO, MultipartFile multipartFile);
+
+    boolean checkMyselfManuscript(String id, String contributors);
+
+    boolean downloadManuscript(HttpServletResponse response, HttpServletRequest request, String id);
 
 }
