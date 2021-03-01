@@ -3,8 +3,8 @@ package com.sci.da.front.Msg.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sci.da.front.Msg.Dto.ManuscriptDTO;
-import com.sci.da.front.Msg.Dto.PersonalManuscriptDTO;
+import com.sci.da.front.Msg.dto.ManuscriptDTO;
+import com.sci.da.front.Msg.dto.PersonalManuscriptDTO;
 import com.sci.da.front.Msg.service.ManuscriptService;
 import com.sci.da.main.util.ResponseMessage;
 import com.sci.da.main.util.ResponseTable;

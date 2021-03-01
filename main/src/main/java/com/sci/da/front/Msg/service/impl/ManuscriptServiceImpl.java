@@ -5,14 +5,13 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sci.da.front.Msg.Dto.ManuscriptDTO;
-import com.sci.da.front.Msg.Dto.PersonalManuscriptDTO;
+import com.sci.da.front.Msg.dto.ManuscriptDTO;
+import com.sci.da.front.Msg.dto.PersonalManuscriptDTO;
 import com.sci.da.front.Msg.entity.Manuscript;
 import com.sci.da.front.Msg.mapper.ManuscriptMapper;
 import com.sci.da.front.Msg.service.ManuscriptService;
 import com.sci.da.main.util.IdUtil;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 

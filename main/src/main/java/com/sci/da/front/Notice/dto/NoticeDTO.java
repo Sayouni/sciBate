@@ -1,4 +1,4 @@
-package com.sci.da.front.Notice.Dto;
+package com.sci.da.front.Notice.dto;
 
 import java.util.Date;
 

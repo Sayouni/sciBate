@@ -3,7 +3,7 @@ package com.sci.da.front.Notice.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.sci.da.front.Notice.Dto.NoticeDTO;
+import com.sci.da.front.Notice.dto.NoticeDTO;
 import com.sci.da.front.Notice.entity.Notice;
 import com.sci.da.front.Notice.service.NoticeService;
 import com.sci.da.main.util.ResponseMessage;

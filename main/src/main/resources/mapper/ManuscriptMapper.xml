@@ -3,7 +3,7 @@
 <mapper namespace="com.sci.da.front.Msg.mapper.ManuscriptMapper">
 
     <!--个人稿件检索映射处理-->
-    <resultMap id="personalManuscriptMap" type="com.sci.da.front.Msg.Dto.PersonalManuscriptDTO">
+    <resultMap id="personalManuscriptMap" type="com.sci.da.front.Msg.dto.PersonalManuscriptDTO">
         <id column="id" property="id"/>
         <result column="contributors" property="contributors"/>
         <result column="manuscript_name" property="manuscriptName"/>
@@ -12,7 +12,7 @@
         <result column="manuscript_title" property="manuscriptTitle"/>
         <result column="audit_status" property="auditStatus"/>
         <result column="create_time" property="createTime"/>
-        <collection property="userInfoList" ofType="com.sci.da.front.User.Dto.UserInfoDTO">
+        <collection property="userInfoList" ofType="com.sci.da.front.User.dto.UserInfoDTO">
             <result column="account" property="account"/>
             <result column="school" property="school"/>
         </collection>

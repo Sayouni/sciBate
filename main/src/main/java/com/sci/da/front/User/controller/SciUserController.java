@@ -1,11 +1,8 @@
 package com.sci.da.front.User.controller;
 
 
-import cn.hutool.http.HttpRequest;
-import com.sci.da.front.User.Dto.UserDTO;
-import com.sci.da.front.User.Dto.UserInfoDTO;
-import com.sci.da.front.User.entity.SciUser;
-import com.sci.da.front.User.entity.UserInfo;
+import com.sci.da.front.User.dto.UserDTO;
+import com.sci.da.front.User.dto.UserInfoDTO;
 import com.sci.da.front.User.service.SciUserService;
 import com.sci.da.main.util.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -21,10 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 /**
  * <p>

@@ -1,4 +1,4 @@
-package com.sci.da.front.Msg.Dto;
+package com.sci.da.front.Msg.dto;
 
 import com.sci.da.front.User.entity.UserInfo;
 

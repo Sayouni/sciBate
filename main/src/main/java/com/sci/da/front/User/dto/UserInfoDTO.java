@@ -1,4 +1,4 @@
-package com.sci.da.front.User.Dto;
+package com.sci.da.front.User.dto;
 
 public class UserInfoDTO {
 

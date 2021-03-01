@@ -1,11 +1,4 @@
-package com.sci.da.front.User.Dto;
-
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.sci.da.front.User.entity.SciUser;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+package com.sci.da.front.User.dto;
 
 import java.util.Date;
 

@@ -2,8 +2,8 @@ package com.sci.da.front.User.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.MD5;
-import com.sci.da.front.User.Dto.UserDTO;
-import com.sci.da.front.User.Dto.UserInfoDTO;
+import com.sci.da.front.User.dto.UserDTO;
+import com.sci.da.front.User.dto.UserInfoDTO;
 import com.sci.da.front.User.entity.AccountAppeal;
 import com.sci.da.front.User.entity.SciUser;
 import com.sci.da.front.User.entity.UserInfo;
