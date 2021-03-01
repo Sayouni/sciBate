@@ -24,6 +24,8 @@ public class Manuscript {
 
     private String manuscriptName;
 
+    private String identifyingName;
+
     private String manuscriptKind;
 
     private String manuscriptDes;

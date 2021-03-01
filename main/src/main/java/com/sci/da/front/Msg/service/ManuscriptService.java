@@ -3,8 +3,10 @@ package com.sci.da.front.Msg.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sci.da.front.Msg.Dto.ManuscriptDTO;
 import com.sci.da.front.Msg.Dto.PersonalManuscriptDTO;
 import com.sci.da.front.Msg.entity.Manuscript;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -19,5 +21,7 @@ public interface ManuscriptService extends IService<Manuscript> {
     boolean updateManuscript(PersonalManuscriptDTO personalManuscriptDTO);
 
     boolean checkExistManuscript(String id);
+
+    boolean uploadManuscript(ManuscriptDTO manuscriptDTO, MultipartFile multipartFile);
 
 }

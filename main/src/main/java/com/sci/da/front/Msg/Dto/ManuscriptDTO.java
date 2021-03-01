@@ -1,11 +1,8 @@
 package com.sci.da.front.Msg.Dto;
 
-import com.sci.da.front.User.entity.UserInfo;
-
 import java.util.Date;
-import java.util.List;
 
-public class PersonalManuscriptDTO {
+public class ManuscriptDTO {
 
     private String id;
 
@@ -24,12 +21,6 @@ public class PersonalManuscriptDTO {
     private Integer auditStatus;
 
     private Date createTime;
-
-    private Integer limit;
-
-    private Integer page;
-
-    private List<UserInfo> userInfoList;
 
     public String getId() {
         return id;
@@ -95,30 +86,6 @@ public class PersonalManuscriptDTO {
         this.createTime = createTime;
     }
 
-    public List<UserInfo> getUserInfoList() {
-        return userInfoList;
-    }
-
-    public void setUserInfoList(List<UserInfo> userInfoList) {
-        this.userInfoList = userInfoList;
-    }
-
-    public Integer getLimit() {
-        return limit;
-    }
-
-    public void setLimit(Integer limit) {
-        this.limit = limit;
-    }
-
-    public Integer getPage() {
-        return page;
-    }
-
-    public void setPage(Integer page) {
-        this.page = page;
-    }
-
     public String getIdentifyingName() {
         return identifyingName;
     }
@@ -127,11 +94,10 @@ public class PersonalManuscriptDTO {
         this.identifyingName = identifyingName;
     }
 
-    public PersonalManuscriptDTO() {
-        super();
+    public ManuscriptDTO() {
     }
 
-    public PersonalManuscriptDTO(String id, String contributors, String manuscriptName, String identifyingName, String manuscriptKind, String manuscriptDes, String manuscriptTitle, Integer auditStatus, Date createTime, Integer limit, Integer page, List<UserInfo> userInfoList) {
+    public ManuscriptDTO(String id, String contributors, String manuscriptName, String identifyingName, String manuscriptKind, String manuscriptDes, String manuscriptTitle, Integer auditStatus, Date createTime) {
         this.id = id;
         this.contributors = contributors;
         this.manuscriptName = manuscriptName;
@@ -141,8 +107,5 @@ public class PersonalManuscriptDTO {
         this.manuscriptTitle = manuscriptTitle;
         this.auditStatus = auditStatus;
         this.createTime = createTime;
-        this.limit = limit;
-        this.page = page;
-        this.userInfoList = userInfoList;
     }
 }

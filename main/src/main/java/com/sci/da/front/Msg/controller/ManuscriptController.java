@@ -3,6 +3,7 @@ package com.sci.da.front.Msg.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.sci.da.front.Msg.Dto.ManuscriptDTO;
 import com.sci.da.front.Msg.Dto.PersonalManuscriptDTO;
 import com.sci.da.front.Msg.service.ManuscriptService;
 import com.sci.da.main.util.ResponseMessage;
@@ -13,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -79,18 +81,52 @@ public class ManuscriptController {
         return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
     }
 
+    /**
+     * manuscriptDes,manuscriptKind,manuscriptName
+     * @param personalManuscriptDTO
+     * @return
+     */
     @PutMapping("/updateManuscript")
     @ApiOperation("修改稿件信息")
     public ResponseMessage updateManuscript(PersonalManuscriptDTO personalManuscriptDTO) {
         if (StringUtils.isNotBlank(personalManuscriptDTO.getId())) {
-            if (manuscriptService.checkExistManuscript(personalManuscriptDTO.getId())){
-                if (manuscriptService.updateManuscript(personalManuscriptDTO)){
+            if (manuscriptService.checkExistManuscript(personalManuscriptDTO.getId())) {
+                if (manuscriptService.updateManuscript(personalManuscriptDTO)) {
                     return ResponseMessage.createBySuccessCodeMessage("信息修改成功", true);
                 }
             }
             return ResponseMessage.createByErrorCodeMessage(500, "无此稿件");
         }
         return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+    }
+
+
+    /**
+     * contributors,manuscriptDes,manuscriptKind,manuscriptName,multipartFile
+     * @param manuscriptDTO
+     * @param multipartFile
+     * @return
+     */
+    @PostMapping("/uploadManuscript")
+    @ApiOperation("稿件上传")
+    public ResponseMessage uploadManuscript(ManuscriptDTO manuscriptDTO,
+                                            @RequestParam("multipartFile") MultipartFile multipartFile) {
+        if (multipartFile != null && multipartFile.getSize() > 0) {
+            String fileName = multipartFile.getOriginalFilename();
+            String format = fileName.substring(fileName.lastIndexOf(".") + 1);
+            if (!"pdf".equals(format) && !"doc".equals(format) && !"docx".equals(format)) {
+                return ResponseMessage.createByErrorCodeMessage(500, "文稿仅支持pdf,doc,docx格式文件");
+            }
+            try {
+                return ResponseMessage.createBySuccessCodeMessage("上传成功",
+                        manuscriptService.uploadManuscript(manuscriptDTO, multipartFile));
+            } catch (Exception e) {
+                e.printStackTrace();
+                return ResponseMessage.createByErrorCodeMessage(500, "上传失败");
+            }
+        }
+        return ResponseMessage.createByErrorCodeMessage(500, "错误,未上传文件或上传了空文件");
+
     }
 
 
