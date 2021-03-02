@@ -54,7 +54,7 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
             temp.put(user.getUserLoginName(),user.getUserLoginPwd());
         }
         if (StringUtils.isNotBlank(temp.get(userDTO.getUserLoginName()))){
-            String md5Value = MD5.create().digestHex(userDTO.getUserLoginPwd());
+            String md5Value = MD5.create().digestHex16(userDTO.getUserLoginPwd());
             if (temp.get(userDTO.getUserLoginName()).equals(md5Value)){
                 return true;
             }
@@ -77,7 +77,7 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
                     .userId(String.valueOf(IdUtil.getId(workerId,dataCenterId)))
                     .build();
             BeanUtil.copyProperties(userDTO,sciUser);
-            sciUser.setUserLoginPwd(MD5.create().digestHex(sciUser.getUserLoginPwd()));
+            sciUser.setUserLoginPwd(MD5.create().digestHex16(sciUser.getUserLoginPwd()));
             baseMapper.insert(sciUser);
             return true;
         }

@@ -29,7 +29,7 @@ public class SwaggerConfig {
     @Bean
     public Docket createBackGroundRestApi() {
         return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())
-                .select().apis(RequestHandlerSelectors.basePackage("com.sci.da.front"))
+                .select().apis(RequestHandlerSelectors.basePackage("com.sci.da.background"))
                 .paths(PathSelectors.any()).build().groupName("后台");
     }
 
@@ -43,4 +43,5 @@ public class SwaggerConfig {
                 .description("Restful风格API")
                 .build();
     }
+
 }

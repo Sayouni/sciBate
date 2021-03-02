@@ -4,6 +4,7 @@ package com.sci.da.front.User.controller;
 import com.sci.da.front.User.dto.UserDTO;
 import com.sci.da.front.User.dto.UserInfoDTO;
 import com.sci.da.front.User.service.SciUserService;
+import com.sci.da.main.util.LoginResult;
 import com.sci.da.main.util.ResponseMessage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -42,7 +43,7 @@ public class SciUserController {
 
     @PostMapping("/login")
     @ApiOperation("登录")
-    public ResponseMessage login(HttpServletRequest httpServletRequest, UserDTO userDTO) {
+    public ResponseMessage login( UserDTO userDTO) {
         if (StringUtils.isBlank(userDTO.getUserLoginName()) || StringUtils.isBlank(userDTO.getUserLoginPwd())) {
             return ResponseMessage.createByErrorCodeMessage(500, "用户名密码为空");
         }
@@ -51,13 +52,12 @@ public class SciUserController {
             if (!service.checkEnableStatus(userDTO.getUserLoginName())){
                 return ResponseMessage.createByErrorMessage("该账号已被封禁，请申诉");
             }
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("userName", userDTO.getUserLoginName());
-            //设置session存活时间为30min
-            session.setMaxInactiveInterval(30 * 60);
-            return ResponseMessage.createBySuccess("登录成功");
+            LoginResult loginResult = new LoginResult();
+            loginResult.setAccount(userDTO.getUserLoginName());
+            loginResult.setStatus("1");
+            return ResponseMessage.createBySuccessCodeMessage("登录成功", loginResult);
         } else {
-            return ResponseMessage.createByErrorCodeMessage(500, "用户名密码错误");
+            return ResponseMessage.createByErrorCodeMessage(500, "账号不存在或用户名密码错误");
         }
     }
 
