@@ -3,8 +3,10 @@ package com.sci.da.background.Manager.controller;
 
 import com.sci.da.background.Manager.dto.AddManagerDTO;
 import com.sci.da.background.Manager.dto.ManagerDTO;
+import com.sci.da.background.Manager.dto.ManagerInfoDTO;
 import com.sci.da.background.Manager.entity.Manager;
 import com.sci.da.background.Manager.service.ManagerService;
+import com.sci.da.front.User.entity.UserInfo;
 import com.sci.da.main.util.LoginResult;
 import com.sci.da.main.util.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -12,11 +14,10 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @RestController
 @RequestMapping("/manager")
@@ -43,7 +44,7 @@ public class ManagerController {
     }
 
     @PostMapping("/addManager")
-    @ApiOperation("/超级管理员添加管理员")
+    @ApiOperation("超级管理员添加管理员")
     public ResponseMessage addManager(AddManagerDTO addManagerDTO) {
         if (managerService.checkManagerAuthority(addManagerDTO)) {
             if (StringUtils.isNotBlank(addManagerDTO.getManagerAccount()) ||
@@ -55,7 +56,16 @@ public class ManagerController {
             }
             return ResponseMessage.createByErrorCodeMessage(500,"账号或密码为空");
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "该管理员无权添加");
+            return ResponseMessage.createByErrorCodeMessage(500, "该管理员无权添加");
+    }
+
+    @PutMapping("/updateManagerInfo")
+    @ApiOperation("修改管理员信息")
+    public ResponseMessage updateManagerInfo(ManagerInfoDTO managerInfoDTO){
+        if (StringUtils.isNotBlank(managerInfoDTO.getManagerAccount())){
+            managerService.updateManagerInfo(managerInfoDTO);
+        }
+        return ResponseMessage.createByErrorCodeMessage(500,"账号为空");
     }
 
 }

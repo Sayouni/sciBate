@@ -1,14 +1,19 @@
 package com.sci.da.background.Manager.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sci.da.background.Manager.dto.AddManagerDTO;
 import com.sci.da.background.Manager.dto.ManagerDTO;
+import com.sci.da.background.Manager.dto.ManagerInfoDTO;
 import com.sci.da.background.Manager.entity.Manager;
+import com.sci.da.background.Manager.entity.ManagerInfo;
 import com.sci.da.background.Manager.mapper.ManagerMapper;
+import com.sci.da.background.Manager.service.ManagerInfoService;
 import com.sci.da.background.Manager.service.ManagerService;
 import com.sci.da.main.util.IdUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +28,9 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
     private Long workerId;
     @Value("${snowflake.data.center.id}")
     private Long dataCenterId;
+
+    @Autowired
+    private ManagerInfoService managerInfoService;
 
     @Override
     public boolean checkManagerAccount(ManagerDTO managerDTO) {
@@ -81,5 +89,12 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void updateManagerInfo(ManagerInfoDTO managerInfoDTO) {
+        ManagerInfo managerInfo = ManagerInfo.builder().build();
+        BeanUtil.copyProperties(managerInfoDTO,managerInfo);
+        managerInfoService.saveOrUpdate(managerInfo);
     }
 }
