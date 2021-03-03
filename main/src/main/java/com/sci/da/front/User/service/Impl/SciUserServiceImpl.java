@@ -2,6 +2,7 @@ package com.sci.da.front.User.service.Impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.MD5;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sci.da.front.User.dto.UserDTO;
 import com.sci.da.front.User.dto.UserInfoDTO;
 import com.sci.da.front.User.entity.AccountAppeal;
@@ -17,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +65,7 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
     }
 
     @Override
+    @Transactional(rollbackFor=Exception.class)
     public boolean registerUser(UserDTO userDTO) {
         //校验账号重复性
         List<SciUser> res = baseMapper.selectList(null);
@@ -79,6 +82,8 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
             BeanUtil.copyProperties(userDTO,sciUser);
             sciUser.setUserLoginPwd(MD5.create().digestHex16(sciUser.getUserLoginPwd()));
             baseMapper.insert(sciUser);
+            UserInfo userInfo = UserInfo.builder().account(sciUser.getUserLoginName()).build();
+            userInfoService.save(userInfo);
             return true;
         }
     }
@@ -114,5 +119,11 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
             return true;
         }
         return false;
+    }
+
+    @Override
+    public UserInfo getUserInfo(String account) {
+        String accountColumn = "account";
+        return userInfoService.getOne(new QueryWrapper<UserInfo>().eq(accountColumn,account));
     }
 }

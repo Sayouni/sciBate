@@ -86,6 +86,12 @@ public class SciUserController {
         return ResponseMessage.createByErrorCodeMessage(500, "账号为空");
     }
 
+    @GetMapping("/getUserInfo")
+    @ApiOperation("获取用户信息")
+    public ResponseMessage getUserInfo(String account){
+        return ResponseMessage.createBySuccessCodeMessage("查询成功",service.getUserInfo(account));
+    }
+
     @PutMapping("/updateUserInfo")
     @ApiOperation("个人信息修改")
     public ResponseMessage updateUserInfo(UserInfoDTO userInfoDTO) {
