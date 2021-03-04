@@ -13,6 +13,7 @@ import com.sci.da.background.Manager.mapper.ManagerMapper;
 import com.sci.da.background.Manager.service.ManagerInfoService;
 import com.sci.da.background.Manager.service.ManagerService;
 import com.sci.da.main.util.IdUtil;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -58,11 +59,11 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
     }
 
     @Override
-    public boolean checkManagerAuthority(AddManagerDTO addManagerDTO) {
+    public boolean checkManagerAuthority(String superAccount) {
         String accountColumn = "manager_account";
         Integer superManagerAuthority = 2;
         Manager manager = baseMapper.selectOne(new QueryWrapper<Manager>().
-                eq(accountColumn, addManagerDTO.getSuperManagerAccount()));
+                eq(accountColumn, superAccount));
         if (manager.getAuthority().equals(superManagerAuthority)) {
             return true;
         }
@@ -75,26 +76,64 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
         List<Manager> managerList = baseMapper.selectList(new QueryWrapper<Manager>().in(accountColumn,
                 addManagerDTO.getManagerAccount()));
         List<String> accountList = new ArrayList<>();
-        for (Manager manager : managerList){
+        for (Manager manager : managerList) {
             accountList.add(manager.getManagerAccount());
         }
-        if (accountList.contains(addManagerDTO.getManagerAccount())){
-           return false;
+        if (accountList.contains(addManagerDTO.getManagerAccount())) {
+            return false;
         }
-        Manager manager = Manager.builder().managerId(String.valueOf(IdUtil.getId(workerId,dataCenterId)))
+        Manager manager = Manager.builder().managerId(String.valueOf(IdUtil.getId(workerId, dataCenterId)))
                 .managerAccount(addManagerDTO.getManagerAccount())
                 .managerPassword(MD5.create().digestHex16(addManagerDTO.getManagerPassword()))
                 .build();
-        if (save(manager)){
+        if (save(manager)) {
+            ManagerInfo managerInfo = ManagerInfo.builder().managerAccount(addManagerDTO.getManagerAccount()).build();
+            managerInfoService.save(managerInfo);
             return true;
         }
         return false;
     }
 
     @Override
-    public void updateManagerInfo(ManagerInfoDTO managerInfoDTO) {
+    public boolean updateManagerInfo(ManagerInfoDTO managerInfoDTO) {
         ManagerInfo managerInfo = ManagerInfo.builder().build();
-        BeanUtil.copyProperties(managerInfoDTO,managerInfo);
-        managerInfoService.saveOrUpdate(managerInfo);
+        BeanUtil.copyProperties(managerInfoDTO, managerInfo);
+        if (managerInfoService.saveOrUpdate(managerInfo)) {
+            return true;
+        }
+        return false;
     }
+
+    @Override
+    public boolean superManagement(ManagerInfoDTO managerInfoDTO) {
+        ManagerInfo managerInfo = ManagerInfo.builder().build();
+        BeanUtil.copyProperties(managerInfoDTO, managerInfo);
+        if (managerInfoService.saveOrUpdate(managerInfo)) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean checkEnableStatus(String managerAccount) {
+        String accountColumn = "manager_account";
+        Integer superAuthority = 2;
+        Integer enableStatus = 1;
+        Manager manager = baseMapper.selectOne(new QueryWrapper<Manager>().
+                eq(accountColumn, managerAccount));
+        ManagerInfo managerInfo = managerInfoService.getById(managerAccount);
+        if (manager == null||managerInfo==null){
+            return false;
+        }
+        if (manager.getAuthority().equals(superAuthority)){
+            return true;
+        }else {
+            if (managerInfo.getEnableStatus().equals(enableStatus)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+
 }

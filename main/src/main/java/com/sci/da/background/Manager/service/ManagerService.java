@@ -13,10 +13,14 @@ public interface ManagerService extends IService<Manager> {
 
     Manager getLoginManager(ManagerDTO managerDTO);
 
-    boolean checkManagerAuthority(AddManagerDTO addManagerDTO);
+    boolean checkManagerAuthority(String superAccount);
 
     boolean addManager(AddManagerDTO addManagerDTO);
 
-    void updateManagerInfo(ManagerInfoDTO managerInfoDTO);
+    boolean updateManagerInfo(ManagerInfoDTO managerInfoDTO);
+
+    boolean superManagement(ManagerInfoDTO managerInfoDTO);
+
+    boolean checkEnableStatus(String managerAccount);
 
 }

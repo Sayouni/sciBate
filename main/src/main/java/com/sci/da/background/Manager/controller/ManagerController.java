@@ -6,7 +6,6 @@ import com.sci.da.background.Manager.dto.ManagerDTO;
 import com.sci.da.background.Manager.dto.ManagerInfoDTO;
 import com.sci.da.background.Manager.entity.Manager;
 import com.sci.da.background.Manager.service.ManagerService;
-import com.sci.da.front.User.entity.UserInfo;
 import com.sci.da.main.util.LoginResult;
 import com.sci.da.main.util.ResponseMessage;
 import io.swagger.annotations.Api;
@@ -33,7 +32,11 @@ public class ManagerController {
         if (StringUtils.isBlank(managerDTO.getManagerAccount()) || StringUtils.isBlank(managerDTO.getManagerPassword())) {
             return ResponseMessage.createByErrorCodeMessage(500, "用户名账号/密码为空");
         }
+
         if (managerService.checkManagerAccount(managerDTO)) {
+            if (!managerService.checkEnableStatus(managerDTO.getManagerAccount())){
+                return ResponseMessage.createByErrorMessage("该账户无法启用，请联系超级管理员");
+            }
             Manager loginRes = managerService.getLoginManager(managerDTO);
             LoginResult loginResult = new LoginResult();
             loginResult.setAccount(managerDTO.getManagerAccount());
@@ -46,26 +49,42 @@ public class ManagerController {
     @PostMapping("/addManager")
     @ApiOperation("超级管理员添加管理员")
     public ResponseMessage addManager(AddManagerDTO addManagerDTO) {
-        if (managerService.checkManagerAuthority(addManagerDTO)) {
+        if (managerService.checkManagerAuthority(addManagerDTO.getSuperManagerAccount())) {
             if (StringUtils.isNotBlank(addManagerDTO.getManagerAccount()) ||
                     StringUtils.isNotBlank(addManagerDTO.getManagerPassword())) {
                 if (managerService.addManager(addManagerDTO)) {
                     return ResponseMessage.createBySuccess("添加成功");
                 }
-                return ResponseMessage.createByErrorCodeMessage(500,"账号重复");
+                return ResponseMessage.createByErrorCodeMessage(500, "账号重复");
             }
-            return ResponseMessage.createByErrorCodeMessage(500,"账号或密码为空");
+            return ResponseMessage.createByErrorCodeMessage(500, "账号或密码为空");
         }
-            return ResponseMessage.createByErrorCodeMessage(500, "该管理员无权添加");
+        return ResponseMessage.createByErrorCodeMessage(500, "该管理员无权添加");
     }
 
     @PutMapping("/updateManagerInfo")
     @ApiOperation("修改管理员信息")
-    public ResponseMessage updateManagerInfo(ManagerInfoDTO managerInfoDTO){
-        if (StringUtils.isNotBlank(managerInfoDTO.getManagerAccount())){
-            managerService.updateManagerInfo(managerInfoDTO);
+    public ResponseMessage updateManagerInfo(ManagerInfoDTO managerInfoDTO) {
+        if (StringUtils.isNotBlank(managerInfoDTO.getManagerAccount())) {
+            return ResponseMessage.createBySuccessCodeMessage("修改成功"
+                    , managerService.updateManagerInfo(managerInfoDTO));
         }
-        return ResponseMessage.createByErrorCodeMessage(500,"账号为空");
+        return ResponseMessage.createByErrorCodeMessage(500, "账号为空");
+    }
+
+    @PutMapping("/superManagement")
+    @ApiOperation("超级管理员对管理员操作")
+    public ResponseMessage superManagement(String superAccount, ManagerInfoDTO managerInfoDTO) {
+        if (StringUtils.isNotBlank(superAccount) || StringUtils.isNotBlank(managerInfoDTO.getManagerAccount())) {
+            if (managerService.checkManagerAuthority(superAccount)) {
+                if (managerService.superManagement(managerInfoDTO)) {
+                    return ResponseMessage.createBySuccessMessage("修改成功");
+                }
+                return ResponseMessage.createByErrorMessage("修改失败");
+            }
+            return ResponseMessage.createByErrorCodeMessage(500, "权限不足");
+        }
+        return ResponseMessage.createByErrorCodeMessage(500, "超管账号/管理员账号为空");
     }
 
 }
