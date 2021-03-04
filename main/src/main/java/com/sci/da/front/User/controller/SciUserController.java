@@ -33,7 +33,7 @@ import java.io.IOException;
 @Api(tags = "用户模块")
 public class SciUserController {
 
-    @Value("${img.file.title}")
+    @Value("${img.file.userTitle}")
     private String path;
 
     private Integer imgSize = 10 * 1024 * 1024;
@@ -134,7 +134,7 @@ public class SciUserController {
             }
             UserInfoDTO userInfo = new UserInfoDTO();
             userInfo.setAccount(account);
-            userInfo.setTitle(filePath + fileName);
+            userInfo.setTitle(filePath + "/" + fileName);
             service.saveOrUpdateUserInfo(userInfo);
             return ResponseMessage.createBySuccessMessage("上传成功");
         }

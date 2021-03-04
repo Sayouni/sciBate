@@ -5,6 +5,7 @@ import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.sci.da.front.User.dto.UserDTO;
 import com.sci.da.front.User.dto.UserInfoDTO;
+import com.sci.da.front.User.dto.UserMsgDTO;
 import com.sci.da.front.User.entity.AccountAppeal;
 import com.sci.da.front.User.entity.SciUser;
 import com.sci.da.front.User.entity.UserInfo;
@@ -122,8 +123,8 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
     }
 
     @Override
-    public UserInfo getUserInfo(String account) {
-        String accountColumn = "account";
-        return userInfoService.getOne(new QueryWrapper<UserInfo>().eq(accountColumn,account));
+    public UserMsgDTO getUserInfo(String account) {
+        UserMsgDTO userMsgDTO = baseMapper.getUserInfo(account);
+        return userMsgDTO;
     }
 }

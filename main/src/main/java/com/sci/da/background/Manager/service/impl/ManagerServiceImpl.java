@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sci.da.background.Manager.dto.AddManagerDTO;
 import com.sci.da.background.Manager.dto.ManagerDTO;
 import com.sci.da.background.Manager.dto.ManagerInfoDTO;
+import com.sci.da.background.Manager.dto.ManagerMsgDTO;
 import com.sci.da.background.Manager.entity.Manager;
 import com.sci.da.background.Manager.entity.ManagerInfo;
 import com.sci.da.background.Manager.mapper.ManagerMapper;
@@ -131,6 +132,23 @@ public class ManagerServiceImpl extends ServiceImpl<ManagerMapper, Manager> impl
             if (managerInfo.getEnableStatus().equals(enableStatus)){
                 return true;
             }
+        }
+        return false;
+    }
+
+    @Override
+    public ManagerMsgDTO getManagerMsg(String managerAccount) {
+        ManagerMsgDTO managerMsgDTO = baseMapper.getManagerMsg(managerAccount);
+        return managerMsgDTO;
+    }
+
+    @Override
+    public boolean checkExistAccount(String managerAccount) {
+        String accountColumn = "manager_account";
+        List<Manager> res = baseMapper.selectList(new QueryWrapper<Manager>().
+                eq(accountColumn,managerAccount));
+        if (res.size()>0){
+            return true;
         }
         return false;
     }

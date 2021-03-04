@@ -2,6 +2,7 @@ package com.sci.da.front.User.service;
 
 import com.sci.da.front.User.dto.UserDTO;
 import com.sci.da.front.User.dto.UserInfoDTO;
+import com.sci.da.front.User.dto.UserMsgDTO;
 import com.sci.da.front.User.entity.SciUser;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.sci.da.front.User.entity.UserInfo;
@@ -28,6 +29,6 @@ public interface SciUserService extends IService<SciUser> {
 
     boolean checkEnableStatus(String account);
 
-    UserInfo getUserInfo(String account);
+    UserMsgDTO getUserInfo(String account);
 
 }

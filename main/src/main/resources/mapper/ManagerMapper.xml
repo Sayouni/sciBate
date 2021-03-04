@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sci.da.background.Manager.mapper.ManagerMapper">
+
+
+    <select id="getManagerMsg" resultType="com.sci.da.background.Manager.dto.ManagerMsgDTO">
+        select MANAGER.manager_id,MANAGER.manager_account,MANAGER.create_time,
+           MANAGER_INFO.phone_number,MANAGER_INFO.email,MANAGER_INFO.enable_status,
+           MANAGER_INFO.title
+        from MANAGER
+        left join MANAGER_INFO on MANAGER.manager_account = MANAGER_INFO.manager_account
+        where MANAGER.manager_account = #{managerAccount}
+    </select>
+</mapper>
