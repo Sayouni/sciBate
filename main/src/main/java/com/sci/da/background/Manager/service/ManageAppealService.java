@@ -10,4 +10,6 @@ public interface ManageAppealService extends IService<ManageAppeal> {
 
     List<AppealInfoDTO> getAccountAppealInfo(String option);
 
+    boolean editAppealStatus(AppealInfoDTO appealInfoDTO);
+
 }

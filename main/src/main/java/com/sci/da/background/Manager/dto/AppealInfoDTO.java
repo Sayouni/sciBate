@@ -8,7 +8,7 @@ public class AppealInfoDTO {
 
     private String appealId;
 
-    private String handleStatus;
+    private Integer handleStatus;
 
     private String appealKind;
 
@@ -32,11 +32,11 @@ public class AppealInfoDTO {
         this.appealId = appealId;
     }
 
-    public String getHandleStatus() {
+    public Integer getHandleStatus() {
         return handleStatus;
     }
 
-    public void setHandleStatus(String handleStatus) {
+    public void setHandleStatus(Integer handleStatus) {
         this.handleStatus = handleStatus;
     }
 
@@ -68,7 +68,7 @@ public class AppealInfoDTO {
         super();
     }
 
-    public AppealInfoDTO(String id, String appealId, String handleStatus, String appealKind, String detail, Date createTime) {
+    public AppealInfoDTO(String id, String appealId, Integer handleStatus, String appealKind, String detail, Date createTime) {
         this.id = id;
         this.appealId = appealId;
         this.handleStatus = handleStatus;

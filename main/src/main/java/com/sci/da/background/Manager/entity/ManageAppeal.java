@@ -21,7 +21,7 @@ public class ManageAppeal implements Serializable {
 
     private String appealId;
 
-    private String handleStatus;
+    private Integer handleStatus;
 
     private Date createTime;
 }
