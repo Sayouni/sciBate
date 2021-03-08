@@ -8,6 +8,8 @@ public class UserMsgDTO {
 
     private String userLoginName;
 
+    private String userLoginPwd;
+
     private Date createTime;
 
     private String phoneNumber;
@@ -36,6 +38,14 @@ public class UserMsgDTO {
 
     public void setUserLoginName(String userLoginName) {
         this.userLoginName = userLoginName;
+    }
+
+    public String getUserLoginPwd() {
+        return userLoginPwd;
+    }
+
+    public void setUserLoginPwd(String userLoginPwd) {
+        this.userLoginPwd = userLoginPwd;
     }
 
     public Date getCreateTime() {
@@ -98,9 +108,10 @@ public class UserMsgDTO {
         super();
     }
 
-    public UserMsgDTO(String userId, String userLoginName, Date createTime, String phoneNumber, String email, String title, Integer enableStatus, String school, String professional) {
+    public UserMsgDTO(String userId, String userLoginName, String userLoginPwd, Date createTime, String phoneNumber, String email, String title, Integer enableStatus, String school, String professional) {
         this.userId = userId;
         this.userLoginName = userLoginName;
+        this.userLoginPwd = userLoginPwd;
         this.createTime = createTime;
         this.phoneNumber = phoneNumber;
         this.email = email;

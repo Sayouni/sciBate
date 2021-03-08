@@ -13,4 +13,6 @@ public interface UserInfoService extends IService<UserInfo> {
 
     List<UserMsgDTO> getUserInfoList(String account);
 
+    boolean editUserInfo(UserMsgDTO userMsgDTO);
+
 }
