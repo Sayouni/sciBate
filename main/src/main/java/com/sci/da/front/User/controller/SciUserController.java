@@ -1,8 +1,10 @@
 package com.sci.da.front.User.controller;
 
 
+import com.sci.da.background.Manager.service.ManageAppealService;
 import com.sci.da.front.User.dto.UserDTO;
 import com.sci.da.front.User.dto.UserInfoDTO;
+import com.sci.da.front.User.entity.AccountAppeal;
 import com.sci.da.front.User.service.SciUserService;
 import com.sci.da.main.util.LoginResult;
 import com.sci.da.main.util.ResponseMessage;
@@ -76,10 +78,10 @@ public class SciUserController {
 
     @PostMapping("/accountAppeal")
     @ApiOperation("账号申诉")
-    public ResponseMessage accountAppeal(String account) {
-        if (StringUtils.isNotBlank(account)) {
-            if (service.checkExistAccount(account)) {
-                service.sendAccountAppeal(account);
+    public ResponseMessage accountAppeal(AccountAppeal accountAppeal) {
+        if (StringUtils.isNotBlank(accountAppeal.getAccount())) {
+            if (service.checkExistAccount(accountAppeal.getAccount())) {
+                service.sendAccountAppeal(accountAppeal);
                 return ResponseMessage.createBySuccessMessage("发送申诉成功");
             }
         }

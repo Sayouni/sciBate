@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sci.da.background.Manager.mapper.ManageAppealMapper">
+
+
+    <select id="getAccountAppealInfo" resultType="com.sci.da.background.Manager.dto.AppealInfoDTO">
+        select MANAGE_APPEAL.id,MANAGE_APPEAL.appeal_id,MANAGE_APPEAL.handle_status,MANAGE_APPEAL.create_time,
+            ACCOUNT_APPEAL.account,ACCOUNT_APPEAL.appeal_kind,ACCOUNT_APPEAL.detail
+        from MANAGE_APPEAL
+        left join ACCOUNT_APPEAL on ACCOUNT_APPEAL.id = MANAGE_APPEAL.appeal_id
+        <if test="option != null || option != ''">
+            where MANAGE_APPEAL.appeal_id like '%${option}%'
+            or ACCOUNT_APPEAL.account like '%${option}%'
+            or ACCOUNT_APPEAL.appeal_kind like '%${option}%'
+        </if>
+        order by create_time
+    </select>
+</mapper>

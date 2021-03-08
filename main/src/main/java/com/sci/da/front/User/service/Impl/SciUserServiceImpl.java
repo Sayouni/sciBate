@@ -3,6 +3,8 @@ package com.sci.da.front.User.service.Impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.sci.da.background.Manager.entity.ManageAppeal;
+import com.sci.da.background.Manager.service.ManageAppealService;
 import com.sci.da.front.User.dto.UserDTO;
 import com.sci.da.front.User.dto.UserInfoDTO;
 import com.sci.da.front.User.dto.UserMsgDTO;
@@ -47,6 +49,9 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
 
     @Autowired
     private UserInfoService userInfoService;
+
+    @Autowired
+    private ManageAppealService manageAppealService;
 
 
     @Override
@@ -99,12 +104,13 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
     }
 
     @Override
-    public void sendAccountAppeal(String account) {
-        AccountAppeal accountAppeal = AccountAppeal.builder()
-                .id(String.valueOf(IdUtil.getId(workerId,dataCenterId)))
-                .account(account)
-                .build();
+    @Transactional
+    public void sendAccountAppeal(AccountAppeal accountAppeal) {
+        accountAppeal.setId(String.valueOf(IdUtil.getId(workerId,dataCenterId)));
         accountAppealService.saveAccountAppeal(accountAppeal);
+        ManageAppeal manageAppeal = ManageAppeal.builder().id(String.valueOf(IdUtil.getId(workerId,dataCenterId)))
+                .appealId(accountAppeal.getId()).build();
+        manageAppealService.save(manageAppeal);
     }
 
     @Override
