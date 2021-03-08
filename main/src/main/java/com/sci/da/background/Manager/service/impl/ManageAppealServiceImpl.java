@@ -20,6 +20,9 @@ public class ManageAppealServiceImpl extends ServiceImpl<ManageAppealMapper, Man
     @Override
     public List<AppealInfoDTO> getAccountAppealInfo(String option) {
         List<AppealInfoDTO> resList = baseMapper.getAccountAppealInfo(option);
+        if (resList.size()<=0){
+            return null;
+        }
         return resList;
     }
 

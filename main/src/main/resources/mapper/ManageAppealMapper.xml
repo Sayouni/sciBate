@@ -8,11 +8,11 @@
             ACCOUNT_APPEAL.account,ACCOUNT_APPEAL.appeal_kind,ACCOUNT_APPEAL.detail
         from MANAGE_APPEAL
         left join ACCOUNT_APPEAL on ACCOUNT_APPEAL.id = MANAGE_APPEAL.appeal_id
-        <if test="option != null || option != ''">
+        <if test="option != null and option != ''">
             where MANAGE_APPEAL.appeal_id like '%${option}%'
             or ACCOUNT_APPEAL.account like '%${option}%'
             or ACCOUNT_APPEAL.appeal_kind like '%${option}%'
         </if>
-        order by create_time
+        order by create_time desc
     </select>
 </mapper>
