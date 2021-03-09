@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sci.da.background.ReviewManuscript.mapper.ReviewManuscriptMapper">
+
+
+    <select id="getManuscriptMsg" resultType="com.sci.da.front.Msg.dto.ManuscriptDTO">
+        select id,contributors,manuscript_name,identifying_name,manuscript_kind,manuscript_des,
+               manuscript_title,audit_status,create_time
+        from MANUSCRIPT
+        <where>
+        <if test="manuscriptDTO.contributors != null and manuscriptDTO.contributors != ''">
+             contributors like '%${manuscriptDTO.contributors}%'
+        </if>
+        <if test="manuscriptDTO.manuscriptName != null and manuscriptDTO.manuscriptName !=''">
+            and manuscript_name like '%${manuscriptDTO.manuscriptName}%'
+        </if>
+        <if test="manuscriptDTO.manuscriptKind != null and manuscriptDTO.manuscriptKind != ''">
+            and manuscript_kind = #{manuscriptKind}
+        </if>
+        <if test="manuscriptDTO.auditStatus != null and manuscriptDTO.auditStatus != ''">
+            and audit_status = #{manuscriptDTO.auditStatus}
+        </if>
+        </where>
+        order by audit_status desc,create_time desc
+    </select>
+</mapper>
