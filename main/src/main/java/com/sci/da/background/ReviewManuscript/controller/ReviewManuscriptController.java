@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sci.da.background.ReviewManuscript.service.ReviewManuscriptService;
 import com.sci.da.front.Msg.dto.ManuscriptDTO;
 import com.sci.da.front.Msg.dto.PersonalManuscriptDTO;
+import com.sci.da.front.Msg.service.ManuscriptService;
 import com.sci.da.main.util.ResponseMessage;
 import com.sci.da.main.util.ResponseTable;
 import com.sci.da.main.util.TableResult;
@@ -13,10 +14,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/reviewManuscript")
@@ -25,6 +27,9 @@ public class ReviewManuscriptController {
 
     @Autowired
     private ReviewManuscriptService reviewManuscriptService;
+
+    @Autowired
+    private ManuscriptService manuscriptService;
 
     /**
      * contributors创作者，manuscriptName标题名称,manuscriptKind分类.auditStatus审理状态,page,limit
@@ -57,6 +62,51 @@ public class ReviewManuscriptController {
         }
         return ResponseMessage.createByErrorMessage("缺少参数");
     }
+
+    /**
+     * @param idList '稿件idList组'
+     * @return
+     */
+    @DeleteMapping("/deleteManuscript")
+    @ApiOperation("删除稿件单一/批量")
+    public ResponseMessage deleteManuscript(@RequestParam(value = "idList", required = false) List<String> idList) {
+        if (idList.size() > 0) {
+            return ResponseMessage.createBySuccessCodeMessage("删除成功", manuscriptService.deleteManuscript(idList));
+        }
+        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+    }
+
+
+    /**
+     * manuscriptDes,manuscriptKind,manuscriptName
+     *
+     * @param personalManuscriptDTO
+     * @return
+     */
+    @PutMapping("/updateManuscript")
+    @ApiOperation("修改稿件信息")
+    public ResponseMessage updateManuscript(PersonalManuscriptDTO personalManuscriptDTO) {
+        if (StringUtils.isNotBlank(personalManuscriptDTO.getId())) {
+            if (manuscriptService.checkExistManuscript(personalManuscriptDTO.getId())) {
+                if (manuscriptService.updateManuscript(personalManuscriptDTO)) {
+                    return ResponseMessage.createBySuccessCodeMessage("信息修改成功", true);
+                }
+            }
+            return ResponseMessage.createByErrorCodeMessage(500, "无此稿件");
+        }
+        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+    }
+
+    @GetMapping("/downloadManuscript")
+    @ApiOperation("稿件下载")
+    public ResponseMessage downloadManuscript(HttpServletResponse response, HttpServletRequest request, String id
+            , String contributors) {
+            return ResponseMessage.createBySuccessCodeMessage("下载成功",
+                    manuscriptService.downloadManuscript(response, request, id));
+
+    }
+
+
 
 
 }
