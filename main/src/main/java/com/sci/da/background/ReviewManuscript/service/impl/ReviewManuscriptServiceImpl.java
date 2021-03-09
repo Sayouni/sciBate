@@ -1,5 +1,6 @@
 package com.sci.da.background.ReviewManuscript.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sci.da.background.ReviewManuscript.mapper.ReviewManuscriptMapper;
 import com.sci.da.background.ReviewManuscript.service.ReviewManuscriptService;
@@ -17,5 +18,15 @@ public class ReviewManuscriptServiceImpl extends ServiceImpl<ReviewManuscriptMap
     public List<ManuscriptDTO> getManuscriptMsg(ManuscriptDTO manuscriptDTO) {
         List<ManuscriptDTO> resList = baseMapper.getManuscriptMsg(manuscriptDTO);
         return resList;
+    }
+
+    @Override
+    public boolean editAuditStatus(ManuscriptDTO manuscriptDTO) {
+        Manuscript manuscript = Manuscript.builder().build();
+        BeanUtil.copyProperties(manuscriptDTO,manuscript);
+        if (saveOrUpdate(manuscript)){
+            return true;
+        }
+        return false;
     }
 }

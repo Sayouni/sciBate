@@ -10,4 +10,6 @@ public interface ReviewManuscriptService extends IService<Manuscript> {
 
     List<ManuscriptDTO> getManuscriptMsg(ManuscriptDTO manuscriptDTO);
 
+    boolean editAuditStatus(ManuscriptDTO manuscriptDTO);
+
 }
