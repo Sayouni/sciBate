@@ -1,10 +1,14 @@
 package com.sci.da.background.ManagerNotice.service.impl;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sci.da.background.ManagerNotice.dto.GroupCenterDTO;
+import com.sci.da.background.ManagerNotice.dto.GroupCenterMsgDTO;
 import com.sci.da.background.ManagerNotice.entity.GroupCenter;
 import com.sci.da.background.ManagerNotice.mapper.GroupMapper;
 import com.sci.da.background.ManagerNotice.service.GroupService;
+import com.sci.da.front.Msg.dto.ManuscriptDTO;
 import com.sci.da.main.util.IdUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -72,5 +76,13 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupCenter> impl
             return false;
         }
         return true;
+    }
+
+    @Override
+    public IPage<GroupCenterMsgDTO> getGroupCenterMsg(Page page, String groupName) {
+        List<ManuscriptDTO> resList = baseMapper.getGroupCenterMsg(page,groupName);
+        page.setRecords(resList);
+        return page;
+
     }
 }

@@ -2,4 +2,22 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sci.da.background.ManagerNotice.mapper.GroupMapper">
 
+    <resultMap id="GroupMsgMap" type="com.sci.da.background.ManagerNotice.dto.GroupCenterMsgDTO">
+        <id property="id" column="id"/>
+        <result property="groupName" column="group_name"/>
+        <collection property="userInfoList" ofType="com.sci.da.front.User.dto.UserInfoDTO">
+            <result property="account" column="account"/>
+            <result property="school" column="school"/>
+            <result property="professional" column="professional"/>
+        </collection>
+    </resultMap>
+
+    <select id="getGroupCenterMsg" resultMap="GroupMsgMap">
+      select distinct GROUP_CENTER.id,GROUP_CENTER.group_name,USER_INFO.account,USER_INFO.school,USER_INFO.professional
+        from GROUP_CENTER
+        left join USER_INFO on USER_INFO.account = GROUP_CENTER.group_member
+        where USER_INFO.account is not null
+    </select>
+
+
 </mapper>
