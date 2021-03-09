@@ -37,7 +37,7 @@
         USER_INFO.account,USER_INFO.school
         from MANUSCRIPT
         left join USER_INFO  on USER_INFO.account = MANUSCRIPT.contributors
-        where MANUSCRIPT.audit_status = 1
+        where MANUSCRIPT.audit_status = 2
         <if test="manuscriptName != null and manuscriptName != ''">
             and MANUSCRIPT.manuscript_name like '%${manuscriptName}%'
         </if>
