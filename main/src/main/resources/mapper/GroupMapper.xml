@@ -12,12 +12,23 @@
         </collection>
     </resultMap>
 
+
     <select id="getGroupCenterMsg" resultMap="GroupMsgMap">
       select distinct GROUP_CENTER.id,GROUP_CENTER.group_name,USER_INFO.account,USER_INFO.school,USER_INFO.professional
         from GROUP_CENTER
         left join USER_INFO on USER_INFO.account = GROUP_CENTER.group_member
         where USER_INFO.account is not null
     </select>
+
+
+    <delete id="deleteMembers">
+        delete from GROUP_CENTER
+        where GROUP_CENTER.group_member in
+        <foreach collection="accountList" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and GROUP_CENTER.id = #{id}
+    </delete>
 
 
 </mapper>

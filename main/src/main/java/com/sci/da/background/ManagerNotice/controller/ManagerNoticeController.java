@@ -7,7 +7,6 @@ import com.sci.da.background.ManagerNotice.dto.GroupCenterDTO;
 import com.sci.da.background.ManagerNotice.dto.GroupCenterMsgDTO;
 import com.sci.da.background.ManagerNotice.service.GroupService;
 import com.sci.da.background.ManagerNotice.service.ManagerNoticeService;
-import com.sci.da.front.Msg.dto.ManuscriptDTO;
 import com.sci.da.main.util.ResponseMessage;
 import com.sci.da.main.util.ResponseTable;
 import com.sci.da.main.util.TableResult;
@@ -15,10 +14,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/manageNotice")
@@ -58,6 +56,12 @@ public class ManagerNoticeController {
         IPage<GroupCenterMsgDTO> result = groupService.getGroupCenterMsg(new Page<>(
                 page,limit), groupName);
         return TableResult.success("200", "查询成功", (int) result.getTotal(), result.getRecords());
+    }
+
+    @DeleteMapping("/deleteMembers")
+    @ApiOperation("删除组内角色")
+    public ResponseMessage deleteMembers(@RequestParam(value = "accountList",required=false) List<String> accountList,String id){
+        return ResponseMessage.createBySuccessCodeMessage("操作成功",groupService.deleteMembers(accountList,id));
     }
 
 

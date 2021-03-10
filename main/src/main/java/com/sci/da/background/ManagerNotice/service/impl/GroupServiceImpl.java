@@ -85,4 +85,12 @@ public class GroupServiceImpl extends ServiceImpl<GroupMapper, GroupCenter> impl
         return page;
 
     }
+
+    @Override
+    public boolean deleteMembers(List<String> accountList,String id) {
+        if (baseMapper.deleteMembers(accountList,id)){
+            return true;
+        }
+        return false;
+    }
 }
