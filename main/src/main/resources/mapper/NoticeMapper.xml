@@ -2,14 +2,64 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.sci.da.front.Notice.mapper.NoticeMapper">
 
-    <select id="selectNotice" resultType="com.sci.da.front.Notice.entity.Notice">
-        select id,account,notice_id,notice_title,noticd_detail,read_status,publish_manager,create_time
+
+    <resultMap id="noticeMap" type="com.sci.da.front.Notice.dto.NoticeMsgDTO">
+        <result column="id" property="id"/>
+        <result column="account" property="account"/>
+        <result column="notice_id" property="noticeId"/>
+        <collection property="noticeCenterDTO" ofType="com.sci.da.front.Notice.dto.NoticeCenterDTO">
+            <result column="id" property="id"/>
+            <result column="create_time" property="createTime"/>
+            <result column="notice_detail" property="noticeDetail"/>
+            <result column="notice_title" property="noticeTitle"/>
+            <result column="publish_manager" property="publishManager"/>
+            <result column="read_status" property="readStatus"/>
+        </collection>
+    </resultMap>
+
+    <update id="updateReadStatus">
+       update NOTICE_CENTER left join NOTICE on NOTICE_CENTER.id = NOTICE.notice_id
+        set NOTICE_CENTER.read_status = 1
+        where NOTICE.id=#{Id}
+    </update>
+    <delete id="deleteNoticeByIds">
+        delete from NOTICE
+        where NOTICE.id in
+        <foreach collection="noticeList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+    <delete id="deleteNoticeCenterByIds">
+        delete from NOTICE_CENTER
+        where NOTICE_CENTER.id in
+        <foreach collection="noticeIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="selectNotice" resultMap="noticeMap" >
+        select NOTICE.id,NOTICE.account,NOTICE.notice_id,NOTICE_CENTER.id,
+        NOTICE_CENTER.notice_title,NOTICE_CENTER.notice_detail,NOTICE_CENTER.read_status,NOTICE_CENTER.publish_manager
+        ,NOTICE_CENTER.create_time
         from NOTICE
+        left join NOTICE_CENTER on NOTICE.notice_id = NOTICE_CENTER.id
         where account = #{account}
         <if test="noticeTitle != null and noticeTitle != ''">
-            and notice_title like '%${noticeTitle}%'
+            and NOTICE_CENTER.notice_title like '%${noticeTitle}%'
         </if>
-        order by read_status desc ,create_time desc
+        order by NOTICE_CENTER.read_status desc ,NOTICE_CENTER.create_time desc
+    </select>
+
+    <select id="selectNoticeId" resultType="java.lang.String">
+        select notice_id
+        from NOTICE
+        where 1 = 1
+        <if test="idList.size()>0">
+            and id in
+            <foreach collection="idList" item="item" index="index" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
     </select>
 
 

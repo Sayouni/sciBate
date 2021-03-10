@@ -4,6 +4,7 @@ package com.sci.da.front.Notice.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sci.da.front.Notice.dto.NoticeDTO;
+import com.sci.da.front.Notice.dto.NoticeMsgDTO;
 import com.sci.da.front.Notice.entity.Notice;
 import com.sci.da.front.Notice.service.NoticeService;
 import com.sci.da.main.util.ResponseMessage;
@@ -14,6 +15,8 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -37,7 +40,7 @@ public class NoticeController {
     @ApiOperation(value = "通知分页检索")
     public ResponseTable selectNotice(NoticeDTO noticeDTO) {
         if (StringUtils.isNotBlank(noticeDTO.getAccount())) {
-            IPage<Notice> result = noticeService.selectNotice(
+            IPage<NoticeMsgDTO> result = noticeService.selectNotice(
                     new Page<>(noticeDTO.getPage(), noticeDTO.getLimit()), noticeDTO.getNoticeTitle(), noticeDTO.getAccount());
             return TableResult.success("200", "查询成功", (int) result.getTotal(), result.getRecords());
         } else {
@@ -63,9 +66,9 @@ public class NoticeController {
 
     @DeleteMapping("/deleteNotice")
     @ApiOperation(value = "删除通知")
-    public ResponseMessage deleteNotice(String Id){
-        if (StringUtils.isNotBlank(Id)){
-            noticeService.deleteNotice(Id);
+    public ResponseMessage deleteNotice(@RequestParam(value = "idList",required = false) List<String> idList){
+        if (idList.size()>0){
+            noticeService.deleteNotice(idList);
             return ResponseMessage.createBySuccessMessage("删除成功");
         }
         return ResponseMessage.createByErrorMessage("错误，通知ID为空");
