@@ -22,17 +22,12 @@
         set NOTICE_CENTER.read_status = 1
         where NOTICE.id=#{Id}
     </update>
+
     <delete id="deleteNoticeByIds">
-        delete from NOTICE
+        update NOTICE_CENTER left join NOTICE on NOTICE_CENTER.id = NOTICE.notice_id
+        set NOTICE_CENTER.del_flag = '1'
         where NOTICE.id in
         <foreach collection="noticeList" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </delete>
-    <delete id="deleteNoticeCenterByIds">
-        delete from NOTICE_CENTER
-        where NOTICE_CENTER.id in
-        <foreach collection="noticeIdList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
     </delete>
@@ -43,7 +38,7 @@
         ,NOTICE_CENTER.create_time
         from NOTICE
         left join NOTICE_CENTER on NOTICE.notice_id = NOTICE_CENTER.id
-        where account = #{account}
+        where account = #{account} and NOTICE_CENTER.del_flag != '1'
         <if test="noticeTitle != null and noticeTitle != ''">
             and NOTICE_CENTER.notice_title like '%${noticeTitle}%'
         </if>

@@ -18,6 +18,8 @@ public class NoticeDTO {
 
     private String publishManager;
 
+    public String delFlag;
+
     private Date createTime;
 
     private Integer limit;
@@ -104,11 +106,19 @@ public class NoticeDTO {
         this.page = page;
     }
 
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
     public NoticeDTO() {
         super();
     }
 
-    public NoticeDTO(String id, String account, String noticeId, String noticeTitle, String noticeDetail, Integer readStatus, String publishManager, Date createTime, Integer limit, Integer page) {
+    public NoticeDTO(String id, String account, String noticeId, String noticeTitle, String noticeDetail, Integer readStatus, String publishManager, String delFlag, Date createTime, Integer limit, Integer page) {
         this.id = id;
         this.account = account;
         this.noticeId = noticeId;
@@ -116,6 +126,7 @@ public class NoticeDTO {
         this.noticeDetail = noticeDetail;
         this.readStatus = readStatus;
         this.publishManager = publishManager;
+        this.delFlag = delFlag;
         this.createTime = createTime;
         this.limit = limit;
         this.page = page;

@@ -39,10 +39,8 @@ public class NoticeServiceImpl extends ServiceImpl<NoticeMapper, Notice> impleme
     @Transactional
     public boolean deleteNotice(List<String> idList) {
         if (idList.size() > 0) {
-            List<String> noticeIdList = baseMapper.selectNoticeId(idList);
-            //删除notice中数据
+            //删除notice中数据(假删除,保存本地信息)
             baseMapper.deleteNoticeByIds(idList);
-            baseMapper.deleteNoticeCenterByIds(noticeIdList);
             return true;
 
         }

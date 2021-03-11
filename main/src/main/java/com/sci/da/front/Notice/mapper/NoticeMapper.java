@@ -19,5 +19,4 @@ public interface NoticeMapper extends BaseMapper<Notice> {
 
     void deleteNoticeByIds(@Param("noticeList") List<String> noticeList);
 
-    void deleteNoticeCenterByIds(@Param("noticeIdList") List<String> noticeIdList);
 }

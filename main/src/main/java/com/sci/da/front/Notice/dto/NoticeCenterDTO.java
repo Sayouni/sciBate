@@ -14,6 +14,8 @@ public class NoticeCenterDTO {
 
     private String publishManager;
 
+    private String delFlag;
+
     private Date createTime;
 
 
@@ -65,16 +67,25 @@ public class NoticeCenterDTO {
         this.createTime = createTime;
     }
 
+    public String getDelFlag() {
+        return delFlag;
+    }
+
+    public void setDelFlag(String delFlag) {
+        this.delFlag = delFlag;
+    }
+
     public NoticeCenterDTO() {
         super();
     }
 
-    public NoticeCenterDTO(String id, String noticeTitle, String noticeDetail, Integer readStatus, String publishManager, Date createTime) {
+    public NoticeCenterDTO(String id, String noticeTitle, String noticeDetail, Integer readStatus, String publishManager, String delFlag, Date createTime) {
         this.id = id;
         this.noticeTitle = noticeTitle;
         this.noticeDetail = noticeDetail;
         this.readStatus = readStatus;
         this.publishManager = publishManager;
+        this.delFlag = delFlag;
         this.createTime = createTime;
     }
 }

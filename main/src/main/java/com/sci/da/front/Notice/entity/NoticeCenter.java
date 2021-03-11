@@ -28,5 +28,7 @@ public class NoticeCenter implements Serializable {
 
     private String publishManager;
 
+    private String delFlag;
+
     private Date createTime;
 }
