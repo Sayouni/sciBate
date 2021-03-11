@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sci.da.background.ManagerNotice.dto.GroupCenterDTO;
 import com.sci.da.background.ManagerNotice.dto.GroupCenterMsgDTO;
+import com.sci.da.background.ManagerNotice.dto.NoticePublishDTO;
 import com.sci.da.background.ManagerNotice.service.GroupService;
 import com.sci.da.background.ManagerNotice.service.ManagerNoticeService;
 import com.sci.da.main.util.ResponseMessage;
@@ -63,6 +64,18 @@ public class ManagerNoticeController {
     public ResponseMessage deleteMembers(@RequestParam(value = "accountList",required=false) List<String> accountList,String id){
         return ResponseMessage.createBySuccessCodeMessage("操作成功",groupService.deleteMembers(accountList,id));
     }
+
+    /**
+     * groupList:分组idList，publishManager：发布通知的管理员account,
+     * @param noticePublishDTO
+     * @return
+     */
+    @PostMapping("/sendNotice")
+    @ApiOperation("发送通知")
+    public ResponseMessage sendNotice(NoticePublishDTO noticePublishDTO){
+        return ResponseMessage.successReq("发送成功",managerNoticeService.sendNotice(noticePublishDTO));
+    }
+
 
 
 }
