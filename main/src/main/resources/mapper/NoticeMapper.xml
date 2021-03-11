@@ -23,14 +23,14 @@
         where NOTICE.id=#{Id}
     </update>
 
-    <delete id="deleteNoticeByIds">
+    <update id="deleteNoticeByIds">
         update NOTICE_CENTER left join NOTICE on NOTICE_CENTER.id = NOTICE.notice_id
         set NOTICE_CENTER.del_flag = '1'
         where NOTICE.id in
         <foreach collection="noticeList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-    </delete>
+    </update>
 
     <select id="selectNotice" resultMap="noticeMap" >
         select NOTICE.id,NOTICE.account,NOTICE.notice_id,NOTICE_CENTER.id,

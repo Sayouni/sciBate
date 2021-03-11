@@ -8,6 +8,7 @@ import com.sci.da.background.ManagerNotice.dto.GroupCenterMsgDTO;
 import com.sci.da.background.ManagerNotice.dto.NoticePublishDTO;
 import com.sci.da.background.ManagerNotice.service.GroupService;
 import com.sci.da.background.ManagerNotice.service.ManagerNoticeService;
+import com.sci.da.front.Notice.dto.NoticeCenterDTO;
 import com.sci.da.main.util.ResponseMessage;
 import com.sci.da.main.util.ResponseTable;
 import com.sci.da.main.util.TableResult;
@@ -66,7 +67,7 @@ public class ManagerNoticeController {
     }
 
     /**
-     * groupList:分组idList，publishManager：发布通知的管理员account,
+     * userList:用户account列表，publishManager：发布通知的管理员account,noticeTitle，noticeDetail
      * @param noticePublishDTO
      * @return
      */
@@ -75,6 +76,21 @@ public class ManagerNoticeController {
     public ResponseMessage sendNotice(NoticePublishDTO noticePublishDTO){
         return ResponseMessage.successReq("发送成功",managerNoticeService.sendNotice(noticePublishDTO));
     }
+
+    @GetMapping("/getSendNotice")
+    @ApiOperation("查看已发通知")
+    public ResponseTable getSendNotice(NoticeCenterDTO noticeCenterDTO,Integer page,Integer limit){
+        IPage<NoticeCenterDTO> result = managerNoticeService.getSendNotice(new Page<>(page,limit),noticeCenterDTO);
+        return TableResult.success("200","检索成功",(int)result.getTotal(),result.getRecords());
+    }
+
+    @DeleteMapping("/revokeNotice")
+    @ApiOperation("撤销通知")
+    public ResponseMessage revokeNotice(@RequestParam("noticeIdList") List<String> noticeIdList){
+        return ResponseMessage.successReq("操作成功",managerNoticeService.revokeNotice(noticeIdList));
+
+    }
+
 
 
 
