@@ -80,7 +80,7 @@ public class ManuscriptController {
         if (idList.size() > 0) {
             return ResponseMessage.createBySuccessCodeMessage("删除成功", manuscriptService.deleteManuscript(idList));
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "稿件Id为空");
     }
 
     /**
@@ -98,9 +98,9 @@ public class ManuscriptController {
                     return ResponseMessage.createBySuccessCodeMessage("信息修改成功", true);
                 }
             }
-            return ResponseMessage.createByErrorCodeMessage(500, "无此稿件");
+            return ResponseMessage.createByErrorCodeMessage("500", "无此稿件");
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "稿件Id为空");
     }
 
 
@@ -119,17 +119,17 @@ public class ManuscriptController {
             String fileName = multipartFile.getOriginalFilename();
             String format = fileName.substring(fileName.lastIndexOf(".") + 1);
             if (!"pdf".equals(format) && !"doc".equals(format) && !"docx".equals(format)) {
-                return ResponseMessage.createByErrorCodeMessage(500, "文稿仅支持pdf,doc,docx格式文件");
+                return ResponseMessage.createByErrorCodeMessage("500", "文稿仅支持pdf,doc,docx格式文件");
             }
             try {
                 return ResponseMessage.createBySuccessCodeMessage("上传成功",
                         manuscriptService.uploadManuscript(manuscriptDTO, multipartFile));
             } catch (Exception e) {
                 e.printStackTrace();
-                return ResponseMessage.createByErrorCodeMessage(500, "上传失败");
+                return ResponseMessage.createByErrorCodeMessage("500", "上传失败");
             }
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "错误,未上传文件或上传了空文件");
+        return ResponseMessage.createByErrorCodeMessage("500", "错误,未上传文件或上传了空文件");
 
     }
 
@@ -141,7 +141,7 @@ public class ManuscriptController {
             return ResponseMessage.createBySuccessCodeMessage("下载成功",
                     manuscriptService.downloadManuscript(response, request, id));
         }
-        return ResponseMessage.createByErrorCodeMessage(500,"该稿件公布，无法下载");
+        return ResponseMessage.createByErrorCodeMessage("500","该稿件公布，无法下载");
 
     }
 

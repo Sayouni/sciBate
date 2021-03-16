@@ -44,7 +44,7 @@ public class ManagerController {
     @ApiOperation("管理员/超级管理员登录")
     public ResponseMessage login(ManagerDTO managerDTO) {
         if (StringUtils.isBlank(managerDTO.getManagerAccount()) || StringUtils.isBlank(managerDTO.getManagerPassword())) {
-            return ResponseMessage.createByErrorCodeMessage(500, "用户名账号/密码为空");
+            return ResponseMessage.createByErrorCodeMessage("500", "用户名账号/密码为空");
         }
 
         if (managerService.checkManagerAccount(managerDTO)) {
@@ -57,7 +57,7 @@ public class ManagerController {
             loginResult.setAuthority(loginRes.getAuthority());
             return ResponseMessage.createBySuccessCodeMessage("登录成功", loginResult);
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "账号不存在或用户名密码错误");
+        return ResponseMessage.createByErrorCodeMessage("500", "账号不存在或用户名密码错误");
     }
 
     @GetMapping("/getManagerMsg")
@@ -75,11 +75,11 @@ public class ManagerController {
                 if (managerService.addManager(addManagerDTO)) {
                     return ResponseMessage.createBySuccess("添加成功");
                 }
-                return ResponseMessage.createByErrorCodeMessage(500, "账号重复");
+                return ResponseMessage.createByErrorCodeMessage("500", "账号重复");
             }
-            return ResponseMessage.createByErrorCodeMessage(500, "账号或密码为空");
+            return ResponseMessage.createByErrorCodeMessage("500", "账号或密码为空");
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "该管理员无权添加");
+        return ResponseMessage.createByErrorCodeMessage("500", "该管理员无权添加");
     }
 
     @PutMapping("/updateManagerInfo")
@@ -89,7 +89,7 @@ public class ManagerController {
             return ResponseMessage.createBySuccessCodeMessage("修改成功"
                     , managerService.updateManagerInfo(managerInfoDTO));
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "账号为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "账号为空");
     }
 
     @PutMapping("/superManagement")
@@ -102,9 +102,9 @@ public class ManagerController {
                 }
                 return ResponseMessage.createByErrorMessage("修改失败");
             }
-            return ResponseMessage.createByErrorCodeMessage(500, "权限不足");
+            return ResponseMessage.createByErrorCodeMessage("500", "权限不足");
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "超管账号/管理员账号为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "超管账号/管理员账号为空");
     }
 
     @PostMapping(value = "/uploadManagerTitle", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)

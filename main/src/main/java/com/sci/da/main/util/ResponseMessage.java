@@ -2,25 +2,25 @@ package com.sci.da.main.util;
 
 public class ResponseMessage <T>{
 
-    private int status;
+    private String status;
     private String msg;
     private T data;
 
-    private ResponseMessage(int status) {
+    private ResponseMessage(String status) {
         this.status = status;
     }
 
-    private ResponseMessage(int status, T data) {
+    private ResponseMessage(String status, T data) {
         this.status = status;
         this.data = data;
     }
 
-    private ResponseMessage(int status, String msg) {
+    private ResponseMessage(String status, String msg) {
         this.status = status;
         this.msg = msg;
     }
 
-    private ResponseMessage(int status, String msg, T data) {
+    private ResponseMessage(String status, String msg, T data) {
         this.status = status;
         this.msg = msg;
         this.data = data;
@@ -30,7 +30,7 @@ public class ResponseMessage <T>{
         return this.status == ResponseCode.SUCCESS.getCode();
     }
 
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
@@ -86,7 +86,7 @@ public class ResponseMessage <T>{
     }
 
     public static <T> ResponseMessage<T> createByErrorCodeMessage
-            (int erroCode, String errorMessage) {
+            (String erroCode, String errorMessage) {
         return new ResponseMessage<T>(erroCode, errorMessage);
     }
 }

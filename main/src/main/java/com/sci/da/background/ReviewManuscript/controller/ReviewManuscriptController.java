@@ -73,7 +73,7 @@ public class ReviewManuscriptController {
         if (idList.size() > 0) {
             return ResponseMessage.createBySuccessCodeMessage("删除成功", manuscriptService.deleteManuscript(idList));
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "稿件Id为空");
     }
 
 
@@ -92,9 +92,9 @@ public class ReviewManuscriptController {
                     return ResponseMessage.createBySuccessCodeMessage("信息修改成功", true);
                 }
             }
-            return ResponseMessage.createByErrorCodeMessage(500, "无此稿件");
+            return ResponseMessage.createByErrorCodeMessage("500", "无此稿件");
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "稿件Id为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "稿件Id为空");
     }
 
     @GetMapping("/downloadManuscript")

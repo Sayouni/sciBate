@@ -47,7 +47,7 @@ public class SciUserController {
     @ApiOperation("登录")
     public ResponseMessage login( UserDTO userDTO) {
         if (StringUtils.isBlank(userDTO.getUserLoginName()) || StringUtils.isBlank(userDTO.getUserLoginPwd())) {
-            return ResponseMessage.createByErrorCodeMessage(500, "用户名密码为空");
+            return ResponseMessage.createByErrorCodeMessage("500", "用户名密码为空");
         }
 
         if (service.checkUser(userDTO)) {
@@ -59,7 +59,7 @@ public class SciUserController {
             loginResult.setStatus("1");
             return ResponseMessage.createBySuccessCodeMessage("登录成功", loginResult);
         } else {
-            return ResponseMessage.createByErrorCodeMessage(500, "账号不存在或用户名密码错误");
+            return ResponseMessage.createByErrorCodeMessage("500", "账号不存在或用户名密码错误");
         }
     }
 
@@ -67,13 +67,13 @@ public class SciUserController {
     @ApiOperation("注册")
     public ResponseMessage register(UserDTO userDTO) {
         if (StringUtils.isBlank(userDTO.getUserLoginName()) || StringUtils.isBlank(userDTO.getUserLoginPwd())) {
-            return ResponseMessage.createByErrorCodeMessage(500, "注册用户名密码为空");
+            return ResponseMessage.createByErrorCodeMessage("500", "注册用户名密码为空");
         }
 
         if (service.registerUser(userDTO)) {
             return ResponseMessage.createBySuccess("注册成功");
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "用户名重复");
+        return ResponseMessage.createByErrorCodeMessage("500", "用户名重复");
     }
 
     @PostMapping("/accountAppeal")
@@ -85,7 +85,7 @@ public class SciUserController {
                 return ResponseMessage.createBySuccessMessage("发送申诉成功");
             }
         }
-        return ResponseMessage.createByErrorCodeMessage(500, "账号为空");
+        return ResponseMessage.createByErrorCodeMessage("500", "账号为空");
     }
 
     @GetMapping("/getUserInfo")
@@ -98,7 +98,7 @@ public class SciUserController {
     @ApiOperation("个人信息修改")
     public ResponseMessage updateUserInfo(UserInfoDTO userInfoDTO) {
         if (StringUtils.isBlank(userInfoDTO.getAccount())) {
-            return ResponseMessage.createByErrorCodeMessage(500, "错误，账号为空！");
+            return ResponseMessage.createByErrorCodeMessage("500", "错误，账号为空！");
         }
         if (!service.checkExistAccount(userInfoDTO.getAccount())) {
             return ResponseMessage.createByErrorMessage("错误，该账号不存在");
