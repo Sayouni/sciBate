@@ -2,36 +2,36 @@ package com.sci.da.main.util;
 
 public class ResponseMessage <T>{
 
-    private String status;
+    private String code;
     private String msg;
     private T data;
 
     private ResponseMessage(String status) {
-        this.status = status;
+        this.code = status;
     }
 
     private ResponseMessage(String status, T data) {
-        this.status = status;
+        this.code = status;
         this.data = data;
     }
 
     private ResponseMessage(String status, String msg) {
-        this.status = status;
+        this.code = status;
         this.msg = msg;
     }
 
     private ResponseMessage(String status, String msg, T data) {
-        this.status = status;
+        this.code = status;
         this.msg = msg;
         this.data = data;
     }
 
     public boolean isSuccess() {
-        return this.status == ResponseCode.SUCCESS.getCode();
+        return this.code == ResponseCode.SUCCESS.getCode();
     }
 
     public String getStatus() {
-        return status;
+        return code;
     }
 
     public T getData() {
