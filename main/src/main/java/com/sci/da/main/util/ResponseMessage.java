@@ -6,22 +6,22 @@ public class ResponseMessage <T>{
     private String msg;
     private T data;
 
-    private ResponseMessage(String status) {
-        this.code = status;
+    private ResponseMessage(String code) {
+        this.code = code;
     }
 
-    private ResponseMessage(String status, T data) {
-        this.code = status;
+    private ResponseMessage(String code, T data) {
+        this.code = code;
         this.data = data;
     }
 
-    private ResponseMessage(String status, String msg) {
-        this.code = status;
+    private ResponseMessage(String code, String msg) {
+        this.code = code;
         this.msg = msg;
     }
 
-    private ResponseMessage(String status, String msg, T data) {
-        this.code = status;
+    private ResponseMessage(String code, String msg, T data) {
+        this.code = code;
         this.msg = msg;
         this.data = data;
     }
@@ -30,7 +30,7 @@ public class ResponseMessage <T>{
         return this.code == ResponseCode.SUCCESS.getCode();
     }
 
-    public String getStatus() {
+    public String getcode() {
         return code;
     }
 
