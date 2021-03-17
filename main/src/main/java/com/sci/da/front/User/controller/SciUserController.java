@@ -63,6 +63,12 @@ public class SciUserController {
         }
     }
 
+    @PostMapping("/login")
+    @ApiOperation("登出")
+    public ResponseMessage logOut(String account){
+        return ResponseMessage.successReq("注销成功",service.logOut(account));
+    }
+
     @PostMapping("/register")
     @ApiOperation("注册")
     public ResponseMessage register(UserDTO userDTO) {

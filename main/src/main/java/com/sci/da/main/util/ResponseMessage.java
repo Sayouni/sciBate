@@ -72,11 +72,6 @@ public class ResponseMessage <T>{
                 ;
     }
 
-    public static <T> ResponseMessage<T> createByError() {
-        return new ResponseMessage<T>
-                (ResponseCode.ERROR.getCode(), ResponseCode.ERROR.getDesc())
-                ;
-    }
 
     public static <T> ResponseMessage<T> createByErrorMessage
             (String errorMessage) {

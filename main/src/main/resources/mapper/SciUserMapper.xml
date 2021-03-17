@@ -4,7 +4,7 @@
 
     <select id="getUserInfo" resultType="com.sci.da.front.User.dto.UserMsgDTO">
         select SCI_USER.user_id,SCI_USER.user_login_name,SCI_USER.create_time,
-            USER_INFO.email,USER_INFO.phone_number,USER_INFO.school,USER_INFO.professional,
+            USER_INFO.email,USER_INFO.phone_number,USER_INFO.school,USER_INFO.enable_status,USER_INFO.professional,
             USER_INFO.title
         from SCI_USER
         left join USER_INFO on SCI_USER.user_login_name = USER_INFO.account

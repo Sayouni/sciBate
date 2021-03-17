@@ -32,4 +32,6 @@ public interface SciUserService extends IService<SciUser> {
 
     UserMsgDTO getUserInfo(String account);
 
+    boolean logOut(String account);
+
 }

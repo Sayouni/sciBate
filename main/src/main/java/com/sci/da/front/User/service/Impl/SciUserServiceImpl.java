@@ -133,4 +133,9 @@ public class SciUserServiceImpl extends ServiceImpl<SciUserMapper, SciUser> impl
         UserMsgDTO userMsgDTO = baseMapper.getUserInfo(account);
         return userMsgDTO;
     }
+
+    @Override
+    public boolean logOut(String account) {
+        return true;
+    }
 }
